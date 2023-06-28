@@ -1,35 +1,25 @@
 import React, { useState } from "react";
-import { v4 } from "uuid";
 import PropTypes from "prop-types";
 
-function NewTicketForm({ setShowTicketList, addTicket }) {
-  const [ticketDescription, setTicketDescription] = useState("");
-  const [ticketLocation, setTicketLocation] = useState("");
-  const [ticketNames, setTicketNames] = useState("");
+function TicketDetail({ ticket, updateTicket, setShowTicketList }) {
+  const [editedTicket, setEditedTicket] = useState(ticket);
 
-  const formSubmit = (event) => {
-    event.preventDefault();
+  const handleInputChange = (e) => {
+    setEditedTicket({
+      ...editedTicket,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-    if (!ticketDescription || !ticketLocation || !ticketNames) {
-      setShowTicketList(true);
-      return;
-    }
-    const newTicket = {
-      id: v4(),
-      names: ticketNames,
-      location: ticketLocation,
-      text: ticketDescription,
-    };
-
-    addTicket(newTicket);
-
+  const handleSave = () => {
+    updateTicket(editedTicket);
     setShowTicketList(true);
   };
 
   return (
     <React.Fragment>
       <div className="flex justify-center h-screen bg-gray-800">
-        <form className="p-4 w-1/4" onSubmit={formSubmit}>
+        <form onSubmit={handleSave} className="p-4 w-1/4">
           <div className="mb-4 m-2">
             <label
               className="block mb-2 text-sm font-medium text-white"
@@ -40,10 +30,9 @@ function NewTicketForm({ setShowTicketList, addTicket }) {
             <input
               className="block w-full p-3 border rounded-lg sm:text-md bg-gray-300 border-gray-600 placeholder-gray-400 text-black"
               type="text"
-              name="ticketNames"
-              value={ticketNames}
-              onChange={(event) => setTicketNames(event.target.value)}
-              placeholder="Name..."
+              name="names"
+              value={editedTicket.names}
+              onChange={handleInputChange}
             />
           </div>
           <div className="mb-4 m-2">
@@ -56,13 +45,11 @@ function NewTicketForm({ setShowTicketList, addTicket }) {
             <input
               className="block w-full p-3 border rounded-lg sm:text-md bg-gray-300 border-gray-600 placeholder-gray-400 text-black"
               type="text"
-              name="ticketLocation"
-              value={ticketLocation}
-              onChange={(event) => setTicketLocation(event.target.value)}
-              placeholder="Location..."
+              name="location"
+              value={editedTicket.location}
+              onChange={handleInputChange}
             />
           </div>
-
           <div className="mb-4 m-2">
             <label
               className="block mb-2 text-sm font-medium text-white"
@@ -73,18 +60,17 @@ function NewTicketForm({ setShowTicketList, addTicket }) {
             <input
               className="block w-full p-3 border rounded-lg sm:text-md bg-gray-300 border-gray-600 placeholder-gray-400 text-black"
               type="text"
-              name="ticketDescription"
-              value={ticketDescription}
-              onChange={(event) => setTicketDescription(event.target.value)}
-              placeholder="Ticket..."
+              name="text"
+              value={editedTicket.text}
+              onChange={handleInputChange}
             />
           </div>
           <div className="flex justify-center">
             <button
-              className="text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
               type="submit"
+              className="text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
             >
-              Submit
+              Save
             </button>
           </div>
         </form>
@@ -93,9 +79,10 @@ function NewTicketForm({ setShowTicketList, addTicket }) {
   );
 }
 
-NewTicketForm.propTypes = {
+TicketDetail.propTypes = {
+  ticket: PropTypes.object.isRequired,
+  updateTicket: PropTypes.func.isRequired,
   setShowTicketList: PropTypes.func.isRequired,
-  addTicket: PropTypes.func.isRequired,
 };
 
-export default NewTicketForm;
+export default TicketDetail;
