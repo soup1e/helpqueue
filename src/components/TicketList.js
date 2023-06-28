@@ -17,31 +17,33 @@ function TicketList({ setShowTicketList, tickets, handleDelete, handleEdit }) {
               <th className="px-6 py-3">LOCATION</th>
             </tr>
           </thead>
-          {tickets.map((ticket) => (
-            <tr className="bg-gray-700 hover:bg-gray-600" key={ticket.id}>
-              <th className="px-6 py-4 font-medium whitespace-nowrap">
-                {ticket.names}
-              </th>
-              <th className="px-6 py-4 font-medium">{ticket.text}</th>
-              <th className="px-6 py-4 font-medium">{ticket.location}</th>
-              <th className="px-1 py-1 font-medium">
-                <button
-                  onClick={() => handleEdit(ticket.id)}
-                  className="text-blue-500 text-sm"
-                >
-                  Edit
-                </button>
-              </th>
-              <th className="px-1 py-1 font-medium">
-                <button
-                  onClick={() => handleDelete(ticket.id)}
-                  className="text-red-500 text-sm"
-                >
-                  Delete
-                </button>
-              </th>
-            </tr>
-          ))}
+          <tbody>
+            {tickets.map((ticket) => (
+              <tr className="bg-gray-700 hover:bg-gray-600" key={ticket.id}>
+                <th className="px-6 py-4 font-medium whitespace-nowrap">
+                  {ticket.names}
+                </th>
+                <th className="px-6 py-4 font-medium">{ticket.text}</th>
+                <th className="px-6 py-4 font-medium">{ticket.location}</th>
+                <th className="px-1 py-1 font-medium">
+                  <button
+                    onClick={() => handleEdit(ticket.id)}
+                    className="text-blue-500 text-sm"
+                  >
+                    Edit
+                  </button>
+                </th>
+                <th className="px-1 py-1 font-medium">
+                  <button
+                    onClick={() => handleDelete(ticket.id)}
+                    className="text-red-500 text-sm"
+                  >
+                    Delete
+                  </button>
+                </th>
+              </tr>
+            ))}
+          </tbody>
         </table>
 
         <div className="flex justify-center mt-4">
